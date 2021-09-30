@@ -237,6 +237,7 @@ contract("ERC725Y", accounts => {
               const result = await erc725YReader.CallGetData(account.address, key);
               assert.deepEqual(result, value)
           });
+
         });
       });
   

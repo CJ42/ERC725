@@ -216,27 +216,27 @@ contract("ERC725Y", accounts => {
             assert.deepEqual(result, value);
           });
 
-        const key = [web3.utils.keccak256("MyFirstKey")];
-        const value = [web3.utils.utf8ToHex("Hello Lukso!")];
-
-        it("Contract can create its own data + write it in ERC725 storage", async () => {
-            await truffleAssert.passes(
-                erc725YWriter.setComputedData(account.address)
-            )
-        });
-
-        it("EOA can read data created + set by a Contract", async () => {
-            console.log("key: ", key)
-            console.log("value: ", value)
-            
-            const result = await account.getData(key)
-            assert.deepEqual(result, value)
-        });
-
-        it("Contract can read data created + set by a Contract", async () => {
-            const result = await erc725YReader.CallGetData(account.address, key);
-            assert.deepEqual(result, value)
-        });
+          const key = [web3.utils.keccak256("MyFirstKey")];
+          const value = [web3.utils.utf8ToHex("Hello Lukso!")];
+  
+          it("Contract can create its own data + write it in ERC725 storage", async () => {
+              await truffleAssert.passes(
+                  erc725YWriter.setComputedData(account.address)
+              )
+          });
+  
+          it("EOA can read data created + set by a Contract", async () => {
+              console.log("key: ", key)
+              console.log("value: ", value)
+              
+              const result = await account.getData(key)
+              assert.deepEqual(result, value)
+          });
+  
+          it("Contract can read data created + set by a Contract", async () => {
+              const result = await erc725YReader.CallGetData(account.address, key);
+              assert.deepEqual(result, value)
+          });
         });
       });
   

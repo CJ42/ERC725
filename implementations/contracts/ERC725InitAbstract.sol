@@ -2,8 +2,8 @@
 pragma solidity ^0.8.0;
 
 // modules
-import {ERC725XInitAbstract} from "./ERC725XInitAbstract.sol";
-import {ERC725YInitAbstract} from "./ERC725YInitAbstract.sol";
+import {ERC725XInitAbstract, ERC725XCore} from "./ERC725XInitAbstract.sol";
+import {ERC725YInitAbstract, ERC725YCore} from "./ERC725YInitAbstract.sol";
 
 // constants
 import {_INTERFACEID_ERC725X, _INTERFACEID_ERC725Y} from "./constants.sol";
@@ -35,7 +35,7 @@ abstract contract ERC725InitAbstract is ERC725XInitAbstract, ERC725YInitAbstract
         public
         view
         virtual
-        override(ERC725XInitAbstract, ERC725YInitAbstract)
+        override(ERC725XCore, ERC725YCore)
         returns (bool)
     {
         return

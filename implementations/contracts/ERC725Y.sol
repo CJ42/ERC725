@@ -3,7 +3,8 @@ pragma solidity ^0.8.0;
 
 // modules
 import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
-import {ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
+/// @dev _removed was added in PR in @erc725/smart-contracts
+// import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import {OwnableUnset} from "./utils/OwnableUnset.sol";
 import {ERC725YCore} from "./ERC725YCore.sol";
 
@@ -17,7 +18,7 @@ import {_INTERFACEID_ERC725Y} from "./constants.sol";
  * It is intended to standardise certain keys value pairs to allow automated retrievals and interactions
  * from interfaces and other smart contracts
  */
-contract ERC725Y is ERC165, ERC725YCore {
+contract ERC725Y is /* ERC165, */ ERC725YCore {
     /**
      * @notice Sets the owner of the contract and register ERC725Y interfaceId
      * @param _newOwner the owner of the contract
@@ -33,8 +34,9 @@ contract ERC725Y is ERC165, ERC725YCore {
 
     /**
      * @dev See {IERC165-supportsInterface}.
+     * @dev was added in PR in @erc725/smart-contracts
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
-        return interfaceId == _INTERFACEID_ERC725Y || super.supportsInterface(interfaceId);
-    }
+    // function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+    //     return interfaceId == _INTERFACEID_ERC725Y || super.supportsInterface(interfaceId);
+    // }
 }

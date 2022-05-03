@@ -8,7 +8,12 @@ import {IERC725Y} from "./interfaces/IERC725Y.sol";
 import {GasLib} from "./utils/GasLib.sol";
 
 // modules
+/// @dev _changed to fix PR in @erc725/smart-contracts
+import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import {OwnableUnset} from "./utils/OwnableUnset.sol";
+
+// constants
+import {_INTERFACEID_ERC725Y} from "./constants.sol";
 
 /**
  * @title Core implementation of ERC725 Y General key/value store
@@ -17,11 +22,16 @@ import {OwnableUnset} from "./utils/OwnableUnset.sol";
  * It is intended to standardise certain keys value pairs to allow automated retrievals and interactions
  * from interfaces and other smart contracts
  */
-abstract contract ERC725YCore is IERC725Y, OwnableUnset {
+abstract contract ERC725YCore is IERC725Y, ERC165, OwnableUnset {
     /**
      * @dev Map the keys to their values
      */
     mapping(bytes32 => bytes) internal store;
+
+    /// @dev _changed to fix PR in @erc725/smart-contracts
+    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+        return interfaceId == _INTERFACEID_ERC725Y || super.supportsInterface(interfaceId);
+    }
 
     /* Public functions */
     /**

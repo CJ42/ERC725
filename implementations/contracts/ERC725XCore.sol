@@ -10,11 +10,14 @@ import {BytesLib} from "solidity-bytes-utils/contracts/BytesLib.sol";
 import {ErrorHandlerLib} from "./utils/ErrorHandlerLib.sol";
 
 // modules
+/// @dev _changed to fix PR in @erc725/smart-contracts
+import {ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import {OwnableUnset} from "./utils/OwnableUnset.sol";
 
 // constants
 // prettier-ignore
 import {
+    _INTERFACEID_ERC725X,
     OPERATION_CALL, 
     OPERATION_DELEGATECALL, 
     OPERATION_STATICCALL, 
@@ -29,8 +32,13 @@ import {
  * including using `delegatecall`, `staticcall` as well creating contracts using `create` and `create2`
  * This is the basis for a smart contract based account system, but could also be used as a proxy account system
  */
-abstract contract ERC725XCore is IERC725X, OwnableUnset {
+abstract contract ERC725XCore is IERC725X, ERC165, OwnableUnset {
     /* Public functions */
+
+    /// @dev _changed to fix PR in @erc725/smart-contracts
+    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+        return interfaceId == _INTERFACEID_ERC725X || super.supportsInterface(interfaceId);
+    }
 
     /**
      * @inheritdoc IERC725X
@@ -176,7 +184,6 @@ abstract contract ERC725XCore is IERC725X, OwnableUnset {
         internal
         returns (address newContract)
     {
-        require(deploymentData.length != 0, "no contract bytecode provided");
         assembly {
             newContract := create(value, add(deploymentData, 0x20), mload(deploymentData))
         }

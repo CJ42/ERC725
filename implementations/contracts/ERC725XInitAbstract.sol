@@ -3,7 +3,8 @@ pragma solidity ^0.8.0;
 
 // modules
 import {Initializable} from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
-import {ERC165} from "@openzeppelin/contracts/utils/introspection/ERC165.sol";
+/// @dev _removed was added in PR in @erc725/smart-contracts
+// import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 import {OwnableUnset} from "./utils/OwnableUnset.sol";
 import {ERC725XCore} from "./ERC725XCore.sol";
 
@@ -17,7 +18,7 @@ import {_INTERFACEID_ERC725X} from "./constants.sol";
  * including using `delegatecall`, `staticcall` as well creating contracts using `create` and `create2`
  * This is the basis for a smart contract based account system, but could also be used as a proxy account system
  */
-abstract contract ERC725XInitAbstract is Initializable, ERC165, ERC725XCore {
+abstract contract ERC725XInitAbstract is Initializable, /* ERC165, */ ERC725XCore {
     function _initialize(address _newOwner) internal virtual onlyInitializing {
         // This is necessary to prevent a contract that implements both ERC725X and ERC725Y to call both constructors
         if (_newOwner != owner()) {
@@ -29,8 +30,9 @@ abstract contract ERC725XInitAbstract is Initializable, ERC165, ERC725XCore {
 
     /**
      * @dev See {IERC165-supportsInterface}.
+     * @dev was added in PR in @erc725/smart-contracts
      */
-    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
-        return interfaceId == _INTERFACEID_ERC725X || super.supportsInterface(interfaceId);
-    }
+    // function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+    //     return interfaceId == _INTERFACEID_ERC725X || super.supportsInterface(interfaceId);
+    // }
 }
